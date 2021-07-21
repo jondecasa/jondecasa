@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&family=Ubuntu+Mono:wght@400;700&display=swap');
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+:root{
+    --main-bg-color: #ffa07c;
+}
+
+.navbar{
+    background-color: var(--main-bg-color);
+}
+.navbar-light .navbar-nav .nav-link{
+    color: #fff;
+}
+
+table thead{
+    background-color: var(--main-bg-color);
+}
+th{
+    background:#ffa07c;
+    color:black;  
+}
+.dataTables_wrapper .dataTables_length select{
+    padding-right: 2.5em!important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    color: blue!important;
+    border: 1px solid blue;
+    background: none;
+    border-radius: 10px;
+}
+.row{
+    margin-top: .5rem!important;
+    margin-bottom: .5rem!important;
+}
+
