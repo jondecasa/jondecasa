@@ -219,15 +219,9 @@ class FacturasController extends Controller
         
     }
     
-    public function exportar(Request $request, $id){
-        
+    public function exportar(Request $request, $id){   
         $factura = Facturas::with("cliente", "detalle")->where("id", $id)->first();
-        //dd(public_path()."\img\logo.svg");
-        
-        $pdf = PDF::loadView("facturas.exportar", compact("factura"));
-        
+        $pdf = PDF::loadView("facturas.exportar", compact("factura"));        
         return $pdf->download($factura->numFactura."_".$factura->cliente->nombre.".pdf");
-        
-        //return view ("facturas.exportar", compact("factura"));
     }
 }

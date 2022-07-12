@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
 
+use ApaiIO\Configuration\GenericConfiguration;
+use ApaiIO\Operations\Search;
+use ApaiIO\ApaiIO;
+
 use Illuminate\Http\Request;
 
 class PruebasController extends Controller
@@ -143,5 +147,35 @@ class PruebasController extends Controller
         $responseBody = json_decode($response->getBody());
         
         dd($responseBody);
+    }
+    
+    public function test(Request $request ){
+        $ruta = new Client(); //GuzzleHttp\Client
+        $AWS_ACCESS_KEY_ID = "AKIAJA3MDDBSZ35SPWVQ";
+        $AWS_SECRET_ACCESS_KEY = "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";
+        $partner = "jdc157-21";
+        
+       
+        $conf = new GenericConfiguration();
+        $client = new \GuzzleHttp\Client();
+        $request = new \ApaiIO\Request\GuzzleRequest($client);
+
+        $conf
+            ->setCountry('es')
+            ->setAccessKey($AWS_ACCESS_KEY_ID)
+            ->setSecretKey($AWS_SECRET_ACCESS_KEY)
+            ->setAssociateTag($partner)
+            ->setRequest($request);
+        $apaiIO = new ApaiIO($conf);
+
+        $search = new Search();
+        $search->setCategory('DVD');
+        $search->setActor('Bruce Willis');
+        $search->setKeywords('Die Hard');
+
+        $formattedResponse = $apaiIO->runOperation($search);
+
+        dd($formattedResponse);
+
     }
 }

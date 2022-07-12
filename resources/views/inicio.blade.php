@@ -70,7 +70,7 @@
                 <p>He trabajado con Java y con .Net, pero prefiero PHP por su versatilidad y su comunidad. 
                     Me gusta el mundo web y la amplitud que brinda PHP. Este lenguaje me hace sentir muy cómodo.</p>
                 <p>Laravel me otorga esa posibilidad de desarrollo rápido, seguro e innovador.</p>
-                <a href="{{asset("descargas/Jon_Ander_de_Casa_CV.docx")}}" class="btn button button-alt">Descargar CV</a>
+                <a href="{{asset("descargas/CV_Jon_Ander_de_Casa.pdf")}}" download class="btn button button-alt">Descargar CV</a>
             </div>
             <div class="col-12 col-md-6">
                 <div>

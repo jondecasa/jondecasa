@@ -21,6 +21,7 @@ Route::get('/', "WebController@index")->name('landing');
 Route::get("/politica-privacidad", "WebController@politicaPrivacidad");
 Route::get("/politica-cookies", "WebController@politicaCookies");
 
+//Route::get("/prueba", "PruebasController@test");
 
 Route::post("/contacto", "MailController@contacto")->name("mail.contacto");
 
