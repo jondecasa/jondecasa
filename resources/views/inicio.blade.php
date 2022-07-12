@@ -137,6 +137,15 @@
                     <p>Murales pintados a mano hechos por artistas en Madrid. Con asesoramiento y presupuestos gratuitos.</p>
                 </div>
             </div>
+            <div class="card">
+                <div class="box">
+                    <img src="{{ asset("/img/gestiondegastos.png") }}" alt="">
+                    <div class="text">
+                        <a href="https://gestiondegastos.com/" target="_blank">GestióndeGastos</a>
+                    </div>
+                    <p>Aplicación de control de finanzas personales para controlar ingresos y gastos.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
