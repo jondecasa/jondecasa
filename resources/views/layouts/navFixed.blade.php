@@ -7,6 +7,7 @@
             <li class="nav-item"><a class="nav-link" href="{{url("/")}}#skills">Skills</a></li>
             <li class="nav-item"><a class="nav-link" href="{{url("/")}}#projects">Proyectos</a></li>
             <li class="nav-item"><a class="nav-link" href="{{url("/")}}#contact">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{url("/blog")}}">Blog</a></li>
         </ul>
         <div class="menu-btn">
             <i class="fas fa-bars"></i>

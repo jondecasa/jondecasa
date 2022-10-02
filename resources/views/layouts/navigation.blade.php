@@ -24,6 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/bot') }}">Bot</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/posts') }}">Posts</a>
+                </li>
             @endauth
         </ul>
 

@@ -1,0 +1,1 @@
+<textarea id="myeditorinstance" {{$attributes}}>{{ $slot ?? '' }}</textarea>

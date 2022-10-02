@@ -18,6 +18,9 @@ Route::get("/obtenerCredenciales", "PruebasController@obtenerCredenciales");
 //Route::get("/mail", "App\Http\Controllers\PruebasController@mail");
 
 Route::get('/', "WebController@index")->name('landing');
+Route::get("/blog", "BusquedaController@blog")->name("blog");
+Route::get("/blog/{postUrl}", "PostsController@mostrarPost");
+
 Route::get("/politica-privacidad", "WebController@politicaPrivacidad");
 Route::get("/politica-cookies", "WebController@politicaCookies");
 
@@ -40,6 +43,10 @@ Route::middleware("auth")->group(function(){
     //Paypal
     Route::get("/paypal/pagar", "PaypalController@paypalPayment");
     Route::get("/paypal/status", "PaypalController@paypalStatus");
+
+    //Posts blog
+    Route::resource("/posts", "PostsController");
+    Route::post("/subirImagen", "PostsController@subirImagen");
 
     //Bot
     Route::get("/bot", "BotController@index");

@@ -4,9 +4,36 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Jon de Casa</title>
+        
         <!-- Favicon -->
         <link rel="icon" href="{{ asset('img/logo.svg') }}" type="image/svg" sizes="16x16">
+
+        @hasSection('post')
+            <title>@yield('titulo', config('app.name', 'Jon de Casa'))</title>
+            <meta name="keywords" content="@yield('keywords')"/>
+            <meta name="robots" content="index,follow"/>
+            <meta name="description" content="@yield('resumen')">
+            <link rel="canonical" href="{{Request::url()}}">
+            <meta property="og:locale" content="es_ES">
+            <meta property="og:type" content="article">
+            <meta property="og:title" content="@yield('titulo', config('app.name', 'Jon de Casa'))">
+            <meta property="og:description" content="@yield('resumen')">
+            <meta property="og:url" content="{{Request::url()}}">
+            <meta property="og:site_name" content="Jon de Casa">
+            <meta property="article:published_time" content="@yield('publicado')">
+            <meta property="article:modified_time" content="@yield('actualizado')">
+            <meta property="og:updated_time" content="@yield('actualizado')">
+            <meta property="og:image" content="@yield('header')">
+            <meta property="og:image:secure_url" content="@yield('header')">
+            <meta property="og:image:width" content="500">
+            <meta property="og:image:height" content="650">
+            <meta name="twitter:card" content="summary">
+            <meta name="twitter:description" content="@yield('resumen')">
+            <meta name="twitter:title" content="@yield('titulo', config('app.name', 'Jon de Casa'))">
+            <meta name="twitter:image" content="@yield('header')">
+        @else
+            <title>Jon de Casa</title>
+        @endif
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
