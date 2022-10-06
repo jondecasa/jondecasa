@@ -32,7 +32,7 @@ class BusquedaController extends Controller
         $posts = Posts::with("header")
                         ->where("visible", "S")
                         ->orderBy("fechaPublicacion", "desc")
-                        ->paginate(3);
+                        ->paginate(10);
 
         return view("blog", compact("posts"));
     }

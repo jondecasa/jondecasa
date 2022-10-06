@@ -15,7 +15,7 @@
 @section('actualizado', $post->metaModificado)
 
 <div class="container">
-    <article class="noticia">
+    <article class="noticia animacionVisible ani-slide-up animacion">
         <div class="row">
             @if($post->header)
                 <div class="col-12">
@@ -31,7 +31,7 @@
         </div>
     </article>
 
-
+    
     <div class="otrosPosts d-flex my-3">
         @if($postAnterior)
             <div class="noticiaAnterior">
@@ -45,6 +45,13 @@
                 <i class="fas fa-chevron-right"></i>
             </div>
         @endif
+    </div>
+    <div class="botonVolver d-flex flex-row-reverse my-3">
+        <a href="{{url('/blog')}}">
+            <button type="button" class="btn button button-alt">
+                <i class="fa fa-arrow-circle-left"></i> Volver al Blog
+            </button>
+        </a>
     </div>
 </div>
 @endsection
