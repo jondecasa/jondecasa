@@ -468,7 +468,7 @@ article a:hover{
     height: 325px;
     background-size: cover;
     background-position: center;
-    background-size: auto;
+    /* background-size: auto; */
 }
 .fechaTitulo{
     

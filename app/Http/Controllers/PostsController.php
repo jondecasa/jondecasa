@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Posts;
 use App\Models\Headers;
 use Carbon\Carbon;
+use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
@@ -44,6 +45,15 @@ class PostsController extends Controller
             $file = $request->file('header');
             $filename = date('Y-m-d_').$file->getClientOriginalName();
             $file->move(public_path('img/posts/'), $filename);
+            
+            $filepath = public_path('img/posts/'.$filename);
+            try {
+                \Tinify\setKey(env("TINIFY_API_KEY"));
+                $source = \Tinify\fromFile($filepath);
+                $source->toFile($filepath);
+            } catch(Exception $e) {
+                // Something else went wrong, unrelated to the Tinify API.
+            } 
             $header->ruta = $filename;
             $header->altText = $valido["altText"];
         }
@@ -137,9 +147,46 @@ class PostsController extends Controller
 
         //Move Uploaded File
         $destinationPath = 'img/posts/';
-        $file->move($destinationPath, $file->getClientOriginalName());
+        $filename = date('Y-m-d_').$file->getClientOriginalName();
+        $file->move($destinationPath, $filename);
 
-        $url = asset($destinationPath.$file->getClientOriginalName());
+        $filepath = public_path($destinationPath.$filename);
+ 
+        try {
+            \Tinify\setKey(env("TINIFY_API_KEY"));
+            $source = \Tinify\fromFile($filepath);
+            // $source->preserve("copyright", "creation");
+            [$width, $height] = getimagesize($filepath);
+            if($width > $height){
+                $resized = $source->resize(array(
+                    "method" => "scale",
+                    "width" => 500
+                ));
+            }else{
+                $resized = $source->resize(array(
+                    "method" => "scale",
+                    "height" => 400
+                ));
+            }
+            $resized->toFile($filepath);
+        } catch(\Tinify\AccountException $e) {
+            // Verify your API key and account limit.
+            // return response()->json(["location" =>$e->getMessage()]);
+        } catch(\Tinify\ClientException $e) {
+            // Check your source image and request options.
+            // return response()->json(["location" =>$e->getMessage()]);
+        } catch(\Tinify\ServerException $e) {
+            // Temporary issue with the Tinify API.
+            // return response()->json(["location" =>$e->getMessage()]);
+        } catch(\Tinify\ConnectionException $e) {
+            // A network connection error occurred.
+            // return response()->json(["location" =>$e->getMessage()]);
+        } catch(Exception $e) {
+            // Something else went wrong, unrelated to the Tinify API.
+            // return redirect('upload')->with('error', $e->getMessage());
+        }
+
+        $url = asset($destinationPath.$filename);
         
         return response()->json(["location" => $url]);
         
