@@ -45,6 +45,7 @@ a:hover{
     padding: 15px 0;
     font-family: 'Ubuntu Mono', sans-serif;
     transition: all 0.3s ease;
+    top: 0;
 }
 .navbar-top.sticky{
     padding: 15px 0;
@@ -458,8 +459,16 @@ article a:hover{
 }
 .noticia{
     /* height: 100%; */
+    margin-top: 100px;
     margin-bottom: 100px;
     
+}
+.noticiaHeader{
+    background-repeat: no-repeat, repeat;
+    height: 325px;
+    background-size: cover;
+    background-position: center;
+    background-size: auto;
 }
 .fechaTitulo{
     
@@ -472,7 +481,24 @@ article a:hover{
 
 }
 
+div.otrosPosts a, div.otrosPosts i{
+    color:#000;
+    text-decoration: none;
+    font-size: 2em;
+}
+div.noticiaAnterior, div.noticiaPosterior{
+    transition: all 0.3s ease;
+}
+div.noticiaPosterior{
+    text-align: right;
+    margin-left: auto;
+    margin-right: 0;
+}
 
+div.noticiaPosterior:hover, div.noticiaAnterior:hover{
+    transform: scale(1.05);
+    transition: ease 0.5;
+}
 
 
 

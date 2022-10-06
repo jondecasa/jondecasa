@@ -114,10 +114,33 @@ class PostsController extends Controller
 
     public function subirImagen(Request $request){
 
-        $imgpath = request()->file("file")->store("posts", "public");
+        // $imgpath = request()->file->store("posts", "public");
+        // // $imgpath = $request->file('file')->storeAs("public", "nombre.png");
 
-        $url = (url("/storage/$imgpath"));
+        // $url = asset('storage/public/'.$imgpath);
 
+        $file = $request->file('file');
+        //File Name
+        $file->getClientOriginalName();
+
+        //Display File Extension
+        $file->getClientOriginalExtension();
+
+        //Display File Real Path
+        $file->getRealPath();
+
+        //Display File Size
+        $file->getSize();
+
+        //Display File Mime Type
+        $file->getMimeType();
+
+        //Move Uploaded File
+        $destinationPath = 'img/posts/';
+        $file->move($destinationPath, $file->getClientOriginalName());
+
+        $url = asset($destinationPath.$file->getClientOriginalName());
+        
         return response()->json(["location" => $url]);
         
     }

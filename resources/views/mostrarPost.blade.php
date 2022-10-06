@@ -19,7 +19,7 @@
         <div class="row">
             @if($post->header)
                 <div class="col-12">
-                    <img src="{{asset("img/posts/".$post->header->ruta)}}" alt="{{$post->header->altText ?? ""}}" width="300"/>
+                    <div class="noticiaHeader" style="background-image: url('{{asset("img/posts/".$post->header->ruta)}}')"></div>
                 </div>
             @endif
             <div class="col-12">
@@ -32,7 +32,7 @@
     </article>
 
 
-    <div class="otrosPosts d-flex">
+    <div class="otrosPosts d-flex my-3">
         @if($postAnterior)
             <div class="noticiaAnterior">
                 <i class="fas fa-chevron-left"></i>
