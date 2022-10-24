@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/prueba", "PruebasController@index");
+
 Route::get("/obtenerCredenciales", "PruebasController@obtenerCredenciales");
 //Route::get("/mail", "App\Http\Controllers\PruebasController@mail");
 
@@ -52,6 +52,11 @@ Route::middleware("auth")->group(function(){
     Route::get("/bot", "BotController@index");
     
     Route::get("/dashboard", "WebController@indexLogued")->name("indexLogued");
+
+
+
+
+    // Route::get("/prueba", "PruebasController@index");
 });
 
 
