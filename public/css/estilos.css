@@ -459,7 +459,7 @@ article a:hover{
 }
 .noticia{
     /* height: 100%; */
-    margin-top: 100px;
+    margin-top: 20px;
     margin-bottom: 100px;
     
 }
@@ -474,8 +474,11 @@ article a:hover{
     
 }
 .noticiaTitulo{
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
+}
+.noticiaTitulo:hover{
+    color: var(--main-bg-color);
 }
 .noticiaTexto{
 
