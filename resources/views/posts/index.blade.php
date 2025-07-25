@@ -8,7 +8,7 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-6">
-                        <h2><b>Clientes</b></h2>
+                        <h2><b>Posts</b></h2>
                     </div>
                     
                     <div class="col-6 text-right">
@@ -24,6 +24,7 @@
                 <table class="table table-striped table-hover" id="tablaRegistros">
                     <thead>
                         <tr>
+                            <th>Id</th>
                             <th>Título</th>
                             <th>Resumen</th>						
                             <th>SEO</th>
@@ -36,6 +37,7 @@
                         @foreach($registros as $registro)
                         
                         <tr>
+                            <td>{{$registro->id}}</td>
                             <td>{{$registro->titulo}}</td>
                             <td>{{$registro->resumen}}</td>
                             <td>{{$registro->metaSeo}}</td>
@@ -71,6 +73,7 @@
        
         $('#tablaRegistros').DataTable( {
             "language": @php echo file_get_contents(asset('lang/spanish.json')) @endphp,
+            "order": [[0, "desc"]]
         });
     });
 </script>
