@@ -3,10 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use GuzzleHttp\RequestOptions;
-use Spatie\Sitemap\Crawler\Profile;
 use Spatie\Sitemap\SitemapGenerator;
-
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Posts;
 
@@ -27,42 +24,28 @@ class GenerateSitemap extends Command
     protected $description = 'Generate the sitemap.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return int
      */
     public function handle()
     {
-        $generator = SitemapGenerator::create('https://jondecasa.com')
-        ->shouldCrawl(function ($url) {
-            
-            if(strpos($url->getPath(), '/descargas') === false &&
-                    strpos($url->getPath(), '/politica-privacidad') ===false &&
-                    strpos($url->getPath(), '/politica-cookies') === false 
-            ){
-                return true;
-            }
-            return false;
+        $sitemap = SitemapGenerator::create('https://jondecasa.com')
+            ->shouldCrawl(function ($url) {
+                return strpos($url->getPath(), '/descargas') === false
+                    && strpos($url->getPath(), '/politica-privacidad') === false
+                    && strpos($url->getPath(), '/politica-cookies') === false;
+            })
+            ->getSitemap();
 
-            
+        Posts::where('visible', 'S')->get()->each(function ($post) use ($sitemap) {
+            $sitemap->add(Url::create($post->slug)->setPriority(0.5));
         });
 
-        $posts = Posts::where("visible", "S");
+        $sitemap->writeToFile(public_path('sitemap.xml'));
 
-        foreach($posts as $post){
-            $generator->add(Url::create($post->slug)->setPriority(0.5));
-        }
-        
-        $generator->writeToFile(public_path("sitemap.xml"));
+        $this->info('Sitemap generado en public/sitemap.xml');
+
+        return self::SUCCESS;
     }
 }

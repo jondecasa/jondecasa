@@ -3,7 +3,8 @@
 <script>
   tinymce.init({
     selector: 'textarea#myeditorinstance', // Replace this CSS selector to match the placeholder element for TinyMCE
-    plugins: 'code preview searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor advlist lists wordcount emoticons',
+    license_key: 'gpl', // Compilación GPL autoalojada (TinyMCE 7+)
+    plugins: 'code preview searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor advlist lists wordcount emoticons',
     toolbar: 'preview code undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | link image',
     image_title: true,
     automatic_uploads: true,

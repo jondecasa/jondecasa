@@ -15,7 +15,9 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10",
         "spatie/laravel-cookie-consent": "^3.5",
-        "tinymce/tinymce": "^6.2"
+        "spatie/laravel-sitemap": "^7.3",
+        "tinify/tinify": "^1.6",
+        "tinymce/tinymce": "^7.9"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",

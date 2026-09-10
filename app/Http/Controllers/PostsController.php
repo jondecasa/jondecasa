@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Posts;
 use App\Models\Headers;
 use Carbon\Carbon;
-use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
