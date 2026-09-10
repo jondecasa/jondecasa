@@ -199,8 +199,8 @@ class PostsController extends Controller
         $postPosterior = null;
 
         if($post){
-            $postPosterior = Posts::where("id", "<", $post->id)->where("visible", "S")->first();
-            $postAnterior = Posts::where("id", ">", $post->id)->where("visible", "S")->first();
+            $postAnterior = Posts::where("id", "<", $post->id)->where("visible", "S")->first();
+            $postPosterior = Posts::where("id", ">", $post->id)->where("visible", "S")->first();
             return view("mostrarPost", compact("post", "postAnterior", "postPosterior"));
         }else{
             abort(404);

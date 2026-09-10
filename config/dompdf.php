@@ -184,7 +184,7 @@ return array(
          *
          * @var int
          */
-        "dpi" => 80,
+        "dpi" => 96,
 
         /**
          * Enable inline PHP
@@ -198,7 +198,7 @@ return array(
          *
          * @var bool
          */
-        "enable_php" => true,
+        "enable_php" => false,
 
         /**
          * Enable inline Javascript
