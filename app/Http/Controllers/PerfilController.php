@@ -31,9 +31,8 @@ class PerfilController extends Controller
 // 
 //        Mail::to("jndcs15@gmail.com")->send(new demo($objDemo));
 //        
-        $cliente = Clientes::where("users_id", Auth::user()->id)
-                            ->first();
-        
+        $cliente = Clientes::firstOrNew(["users_id" => Auth::user()->id]);
+
         return view("perfil.index", compact("cliente"));
     }
     
@@ -56,20 +55,20 @@ class PerfilController extends Controller
     }
     
     public function actualizarInfo(Request $request){
-        $cliente = Clientes::where("users_id", Auth::user()->id)->first();
-        
+        $cliente = Clientes::firstOrNew(["users_id" => Auth::user()->id]);
+
         $valido = $request->validate([
                 'nombre' => 'required',
                 'dni' => ['nullable', 'min:9', 'max:9', new Dni($request->dni)],
                 'fechaNac' => 'nullable|date',
-                'telegram' => 'required|unique:clientes,telegram,'.$cliente->id,
                 'direccion' => 'required|min:10',
             ], [], [
                 'fechaNac' => 'Fecha de Nacimiento',
                 'direccion' => 'Dirección',
             ]);
-            
-        $cliente->update($valido);
+
+        $cliente->fill($valido)->save();
+
         return redirect()->route("perfil")
                     ->with("success", "Actualizado correctamente");
     }

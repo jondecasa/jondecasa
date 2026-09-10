@@ -21,9 +21,6 @@
             </ul>
             <div class="tab-content" id="tabsContent">
                 <div class="tab-pane fade show active" id="contentInfo" role="tabpanel" aria-labelledby="tabInfo">
-                    <div class="alert alert-warning text-center">
-                        <i>Para conseguir tu id de telegram envia un mensaje <a href="https://t.me/userinfobot" target="_blank">a este bot</a> y pégalo en el campo correspondiente. Únicamente el usuario permanecerá en el canal si está registrado en este campo.</i>
-                    </div>
                     <form method="POST" action="{{ url('perfil/actualizarInfo') }}" >
                         @csrf
                         <div class="form-group row mt-2">
@@ -35,18 +32,7 @@
                         <div class="form-group row mt-2">
                             <label for="" class="col-md-4 col-form-label text-md-right">Dni</label>
                             <div class="col-md-6">
-                                <input id="dni" type="text" maxlength="9" class="form-control" name="dni" value="{{old('cliente', $cliente->dni)}}" autocomplete="dni" autofocus>
-                            </div>
-                        </div>
-                        <div class="form-group row mt-2">
-                            <label for="" class="col-md-4 col-form-label text-md-right">Telegram ID</label>
-                            <div class="input-group col-md-6 mb-3">
-                                <input type="text" name="telegram" class="form-control" value="{{old('telegram', $cliente->telegram)}}" required placeholder="123456789">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="fab fa-telegram text-primary"></i>
-                                    </span>
-                                </div>
+                                <input id="dni" type="text" maxlength="9" class="form-control" name="dni" value="{{old('dni', $cliente->dni)}}" autocomplete="dni" autofocus>
                             </div>
                         </div>
                         <div class="form-group row mt-2">
