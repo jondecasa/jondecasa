@@ -4,87 +4,77 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use App\Models\Registros;
 use Auth;
 use Carbon\Carbon;
-use PayPal\Rest\ApiContext;
-use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Api\Payer;
-use PayPal\Api\Amount;
-use PayPal\Api\Transaction;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Payment;
-use PayPal\Exception\PayPalConnectionException;
-use PayPal\Api\PaymentExecution;
 
 class PaypalController extends Controller
 {
-    private $apiContext;
-    
-    public function __construct() {
-        $paypalConfig = Config::get('paypal');
-        
-        $this->apiContext = new ApiContext(
-            new OAuthTokenCredential(
-                    $paypalConfig["client_id"],
-                    $paypalConfig["secret"],
-                )
-            );
-    }
-    
     public function paypalPayment(){
         $paypalConfig = Config::get('paypal');
-                
         $urlVolver = url("/paypal/status");
-        
-        $pagador = new Payer();
-        $pagador->setPaymentMethod("paypal");
-        
-        $cantidad = new Amount();
-        $cantidad->setTotal($paypalConfig["precio"]);
-        $cantidad->setCurrency("EUR");
-        
-        $transaction = new Transaction();
-        $transaction->setAmount($cantidad);
-        
-        $redirectUrl = new RedirectUrls();
-        $redirectUrl->setReturnUrl($urlVolver)->setCancelUrl($urlVolver);
-        
-        $pago = new Payment();
-        $pago->setIntent("sale")
-                ->setPayer($pagador)
-                ->setTransactions(array($transaction))
-                ->setRedirectUrls($redirectUrl);
-        
-        try{
-            $pago->create($this->apiContext);
-            
-            return redirect()->away($pago->getApprovalLink());
-            
-        }catch(PayPalConnectionException $ex){
-            
+
+        try {
+            $respuesta = $this->clientePaypal()->post('/v2/checkout/orders', [
+                'intent' => 'CAPTURE',
+                'purchase_units' => [[
+                    'amount' => [
+                        'currency_code' => 'EUR',
+                        'value' => number_format($paypalConfig['precio'], 2, '.', ''),
+                    ],
+                ]],
+                'payment_source' => [
+                    'paypal' => [
+                        'experience_context' => [
+                            'return_url' => $urlVolver,
+                            'cancel_url' => $urlVolver,
+                            'user_action' => 'PAY_NOW',
+                        ],
+                    ],
+                ],
+            ])->throw()->json();
+
+            $urlAprobacion = data_get(
+                collect($respuesta['links'] ?? [])->firstWhere('rel', 'payer-action'),
+                'href'
+            ) ?: data_get(
+                collect($respuesta['links'] ?? [])->firstWhere('rel', 'approve'),
+                'href'
+            );
+
+            if (!$urlAprobacion) {
+                throw new \RuntimeException('PayPal no devolvió una URL de aprobación.');
+            }
+
+            return redirect()->away($urlAprobacion);
+        } catch (\Throwable $ex) {
+            report($ex);
+
+            return redirect('/')->withErrors(['paypal' => 'No se pudo iniciar el pago con PayPal.']);
         }
-              
     }
     
     public function paypalStatus(Request $request){
-        $pagoId = $request->input("paymentId");
-        $pagadorId = $request->input("PayerID");
-        $token = $request->input("token");
-        
-        if(!$pagoId || !$pagadorId || !$token){
+        $pedidoId = $request->input("token");
+
+        if (!$pedidoId) {
             $success = "No se pudo proceder con el pago a través de Paypal";
             return redirect("/")->with(compact("success"));
         }
-        
-        $pago = Payment::get($pagoId, $this->apiContext);
-        
-        $ejecucion = new PaymentExecution();
-        $ejecucion->setPayerId($pagadorId);
-        
-        $resultado = $pago->execute($ejecucion, $this->apiContext);
-        
-        if($resultado->getState() === "approved"){
+
+        try {
+            $resultado = $this->clientePaypal()
+                ->post('/v2/checkout/orders/'.$pedidoId.'/capture', [])
+                ->throw()
+                ->json();
+        } catch (\Throwable $ex) {
+            report($ex);
+
+            return redirect('/')->withErrors(['paypal' => 'No se pudo confirmar el pago con PayPal.']);
+        }
+
+        if (($resultado['status'] ?? null) === 'COMPLETED') {
             $registro = Registros::where("user_id", Auth::user()->id)->orderBy("fechaFin", "desc")->first();
         
             //Si ya hay registros, creo cojo el anterior
@@ -109,11 +99,25 @@ class PaypalController extends Controller
             }
             $success = "El pago se ha realizado correctamente";
             return redirect("/bot")->with(compact("success"));
-        }else{
+        } else {
             $success = "Lo sentimos, el pago no se ha realizado correctamente";
             return redirect("/bot")->withErrors(compact("success"));
         }
-        
-        
+    }
+
+    private function clientePaypal()
+    {
+        $config = Config::get('paypal');
+        $baseUrl = $config['mode'] === 'live'
+            ? 'https://api-m.paypal.com'
+            : 'https://api-m.sandbox.paypal.com';
+
+        $token = Http::asForm()
+            ->withBasicAuth($config['client_id'], $config['secret'])
+            ->post($baseUrl.'/v1/oauth2/token', ['grant_type' => 'client_credentials'])
+            ->throw()
+            ->json('access_token');
+
+        return Http::baseUrl($baseUrl)->withToken($token)->acceptJson();
     }
 }

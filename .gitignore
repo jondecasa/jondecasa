@@ -19,3 +19,4 @@ Homestead.json
 
 #Mios
 public/img/posts/*
+.phpunit.result.cache

@@ -90,7 +90,7 @@
             <span class="copy">2021 <span class="far fa-copyright"></span> Copyright | Creado por <a href="#">Jon de Casa</a></span>
         </footer>
         
-        @include('cookieConsent::index')
+        @include('cookie-consent::index')
         <script src="{{ asset('js/general.js') }}"></script>
     </body>
 </html>
