@@ -19,6 +19,9 @@
                     <a class="nav-link" href="{{ url('/proyectos') }}">Proyectos</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/nfcrutas') }}">Rutas NFC</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url('/facturas') }}">Facturas</a>
                 </li>
                 <li class="nav-item">

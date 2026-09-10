@@ -28,9 +28,13 @@ Route::get("/politica-cookies", "WebController@politicaCookies");
 
 Route::post("/contacto", "MailController@contacto")->name("mail.contacto");
 
+// Enlace público de las etiquetas NFC. Debe permanecer fuera del middleware auth.
+Route::get("/nfc/{codigo}", "NfcRutasController@redirect")->name("nfc.redirect");
+
 Route::middleware("auth")->group(function(){
     Route::resource("/clientes", "ClientesController");
     Route::resource("/proyectos", "ProyectosController");
+    Route::resource("/nfcrutas", "NfcRutasController")->except(["show"]);
     
     Route::post("/facturas/exportar/{id}", "FacturasController@exportar")->name("facturas.exportar");
     Route::resource("/facturas", "FacturasController");
