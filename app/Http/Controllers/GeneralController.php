@@ -69,8 +69,13 @@ class GeneralController extends Controller
     }
     
     public static function registrarLog($texto){
-        $registro = new Logs();
-        $registro->texto = $texto;
-        $registro->save();
+        try {
+            $registro = new Logs();
+            $registro->texto = (string) $texto;
+            $registro->save();
+        } catch (\Throwable $e) {
+            // Nunca dejar que el registro en BD enmascare el error original.
+            \Illuminate\Support\Facades\Log::error('No se pudo registrar el log en BD: '.$e->getMessage());
+        }
     }
 }
