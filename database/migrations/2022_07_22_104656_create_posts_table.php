@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->string("slug", 110)->unique();
             $table->string("metaSeo", 100)->nullable();
             $table->string("resumen", 220);
-            $table->text("contenido");
+            $table->longText("contenido");
             $table->enum("visible", ["N", "S"])->default("S");
             $table->datetime("fechaPublicacion")->nullable();
             $table->timestamps();
