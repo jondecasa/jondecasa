@@ -68,6 +68,11 @@ class NfcRutasController extends Controller
         return redirect()->away($ruta->url);
     }
 
+    public function noEncontrada()
+    {
+        abort(404);
+    }
+
     private function validarRuta(Request $request, NfcRutas $nfcruta = null)
     {
         $validado = $request->validate([

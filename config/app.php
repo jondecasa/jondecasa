@@ -58,6 +58,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Dominio de las etiquetas NFC
+    |--------------------------------------------------------------------------
+    |
+    | Si se define (p. ej. nfcsharingexperience.jondecasa.com), ese host sirve
+    | únicamente el redirect público de las etiquetas: https://<dominio>/CODIGO.
+    | Si está vacío se usa la ruta /nfc/CODIGO en el dominio principal.
+    |
+    */
+
+    'nfc_domain' => env('NFC_DOMAIN'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
